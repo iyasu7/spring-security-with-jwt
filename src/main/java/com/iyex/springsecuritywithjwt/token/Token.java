@@ -1,13 +1,28 @@
 package com.iyex.springsecuritywithjwt.token;
 
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
-import lombok.Setter;
+import com.iyex.springsecuritywithjwt.entity.User;
+import jakarta.persistence.*;
+import lombok.*;
 
+@Builder
 @Getter
 @Setter
-@RequiredArgsConstructor
+@NoArgsConstructor
+@AllArgsConstructor
+@Entity
 public class Token {
+    @Id
+    @GeneratedValue(strategy= GenerationType.IDENTITY)
+    private Integer id;
+
     private String token;
-    private String name;
+    @Enumerated(EnumType.STRING)
+    private TokenType tokenType;
+
+    private boolean expired;
+
+    private boolean revoked;
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
 }
